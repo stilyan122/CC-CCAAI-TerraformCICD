@@ -54,7 +54,6 @@ resource "azuread_service_principal" "sp" {
 # Azure AD Service Principal Password
 resource "azuread_service_principal_password" "sp_password" {
   service_principal_id = azuread_service_principal.sp.id
-  value                = var.sp_password
   end_date             = "2099-01-01T00:00:00Z"
 }
 

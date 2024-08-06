@@ -32,7 +32,7 @@ jobs:
     - name: Terraform Init for Storage Setup
       run: |
         terraform init
-        terraform apply -auto-approve -target=azurerm_resource_group.storage_rg -target=azurerm_storage_account.storage_account -target=azurerm_storage_container.state_container -target=azurerm_service_principal.service_principal -target=azurerm_role_assignment.sp_role_assignment
+        terraform apply -auto-approve -target=azurerm_resource_group.storage_rg -target=azurerm_storage_account.storage_account -target=azurerm_storage_container.state_container -target=azuread_application.app -target=azuread_service_principal.sp
 
   terraform-test:
     name: 'Terraform Test'
@@ -105,3 +105,8 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve tfplan
+
+    - name: Terraform Output
+      run: |
+        terraform output -json sp_password > sp_password.json
+        echo "Service Principal Password: $(jq -r .sp_password sp_password.json)
