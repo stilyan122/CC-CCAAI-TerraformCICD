@@ -5,13 +5,6 @@ terraform {
       version = "3.114.0"
     }
   }
-
-  backend "azurerm" {
-    resource_group_name = "StorageRG" 
-    storage_account_name = "taskboardstoragestilyan"
-    container_name = "taskboardcontainerstilyan"
-    key = "terraform.tfstate"
-  }
 }
 
 provider "azurerm" {
