@@ -15,7 +15,7 @@ env:
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
-  terraform:
+  terraform-test:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
@@ -49,7 +49,7 @@ jobs:
       run: terraform validate
   
   terraform-plan:
-    name: 'Terraform Apply Plan'
+    name: 'Terraform Store Plan'
     runs-on: ubuntu-latest
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
