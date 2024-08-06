@@ -34,14 +34,18 @@ resource "azurerm_storage_container" "state_container" {
   container_access_type = "private"
 }
 
-resource "azurerm_service_principal" "service_principal" {
-  application_name = var.service_principal_app_name
+resource "azuread_application" "app" {
+  display_name = var.service_principal_app_name
 }
 
-resource "azurerm_role_assignment" "sp_role_assignment" {
-  principal_id   = azurerm_service_principal.service_principal.id
+resource "azuread_service_principal" "sp" {
+  application_id = azuread_application.app.application_id
+}
+
+resource "azurerm_role_assignment" "sp_role" {
+  principal_id   = azuread_service_principal.sp.id
   role_definition_name = "Contributor"
-  scope          = data.azurerm_client_config.service_principal.id
+  scope          = azurerm_resource_group.storage_rg.id
 }
 
 resource "azurerm_resource_group" "resource_group" {
