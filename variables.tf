@@ -72,3 +72,9 @@ variable "service_principal_app_name" {
   type        = string
   description = "State container name in Azure"
 }
+
+variable "sp_password" {
+  description = "Password for the Azure AD service principal."
+  type        = string
+  sensitive   = true
+}

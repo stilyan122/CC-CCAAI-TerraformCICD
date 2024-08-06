@@ -1,10 +1,22 @@
-# Providers
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0" # Replace with the appropriate version constraint
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.0" # Replace with the appropriate version constraint
+    }
+  }
+}
+
 provider "azurerm" {
   features {}
 }
 
 provider "azuread" {
-  version = "~> 2.0"
+  # No version constraints here
 }
 
 # Resource Group for Terraform State
@@ -36,7 +48,7 @@ resource "azuread_application" "app" {
 
 # Azure AD Service Principal
 resource "azuread_service_principal" "sp" {
-  application_id = azuread_application.app.app_id
+  application_id = azuread_application.app.application_id
 }
 
 # Azure AD Service Principal Password
