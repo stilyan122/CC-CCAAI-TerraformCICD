@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [terraform-plan]
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, or windows-latest
     defaults:
       run:
         shell: bash
