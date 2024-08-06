@@ -22,6 +22,35 @@ provider "azurerm" {
   }
 }
 
+resource "azurerm_resource_group" "storage_rg" {
+  name     = var.storage_resource_group_name
+  location = var.storage_resource_group_location
+}
+
+resource "azurerm_storage_account" "storage_account" {
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.storage_rg.name
+  location                 = azurerm_resource_group.storage_rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "state_container" {
+  name                  = var.state_container_name
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  container_access_type = "private"
+}
+
+resource "azurerm_service_principal" "service_principal" {
+  application_name = var.service_principal_app_name
+}
+
+resource "azurerm_role_assignment" "sp_role_assignment" {
+  principal_id   = azurerm_service_principal.service_principal.id
+  role_definition_name = "Contributor"
+  scope          = data.azurerm_client_config.service_principal.id
+}
+
 resource "azurerm_resource_group" "resource_group" {
   name     = var.resource_group_name
   location = var.resource_group_location
